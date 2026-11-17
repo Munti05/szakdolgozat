@@ -27,7 +27,7 @@ Ez a repository a szakdolgozat **teljes számítási hátterét** tartalmazza: a
 
 **Minta:** 78 európai város (12 ország, közép-európai súlypont: Németország, Lengyelország, Csehország), kiegyensúlyozatlan panel, kb. 2022. 08. 26. – 2023. 07. 15. között. A mintába azok a városok kerültek, ahol a **nextbike** volt az egyetlen BSS-szolgáltató (monopolhelyzet), kiegészítve négy egyénileg gyűjtött várossal: **Budapest, Bergen, Oslo, Trondheim**.
 
-**Függő változó:** a napi utazásszám természetes logaritmusa (`log_trips`), így az együtthatók közelítőleg százalékos hatásként értelmezhetők (`100·(exp(b)−1)` %).
+**Függő változó:** a napi utazásszám természetes logaritmusa (`log_trips`), így az együtthatók közelítőleg százalékos hatásként értelmezhetők.
 
 ### Kutatási kérdések és hipotézisek
 
