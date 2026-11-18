@@ -11,7 +11,7 @@ Ez a repository a szakdolgozat **teljes számítási hátterét** tartalmazza: a
 1. [A kutatás röviden](#1-a-kutatás-röviden)
 2. [Adatforrások és köszönet](#2-adatforrások-és-köszönet)
 3. [A repository szerkezete](#3-a-repository-szerkezete)
-4. [Gyorsindítás: melyik fájlt nyissam meg?](#4-gyorsindítás-melyik-fájlt-nyissam-meg)
+4. [Gyorsindítás: melyik fájlt nyissam meg?](#4-gyorsindítás)
 5. [ETL folyamat (`R/etl.R`)](#5-etl-folyamat-retlr)
 6. [Modellezés (`R/modellezes.R`)](#6-modellezés-rmodellezesr)
 7. [A végső panel változói (`panel_data.csv`)](#7-a-végső-panel-változói-panel_datacsv)
@@ -58,7 +58,7 @@ A Müncheni Műszaki Egyetem (TUM) és az Edinburgh-i Egyetem kutatócsoportján
 A GBFS (General Bikeshare Feed Specification) rendszerkatalógusa (`systems.csv`). A teljes **verziótörténetét** a GitHub API-n keresztül kérdeztem le, hogy a vizsgált időszak minden állapotában azonosítani lehessen, mely városokban működött egyedüli szolgáltatóként a nextbike (monopolszűrés).
 
 ### További források
-
+ 
 | Adat | Forrás | Hol használja a kód |
 |---|---|---|
 | Napi időjárás (átlaghőmérséklet, csapadék, szél, páratartalom) és koordináták | [Open-Meteo](https://open-meteo.com/) Archive és Geocoding API | ETL 2.1–2.2 |
@@ -68,14 +68,15 @@ A GBFS (General Bikeshare Feed Specification) rendszerkatalógusa (`systems.csv`
 | Domborzat (szintkülönbség, átlagos lejtés) | `elevatr` (AWS terrain tiles) → `terra` | ETL 3.4 |
 | Népesség | GeoNames, Huwise open-data portál (Excelben szűrve, 7 város kézzel pótolva) | `data/00Letoltott/` |
 | Budapest napi utazásszám, állomásszám | BKK (nyilvános adatok) | `data/Budapest/` |
-| Bergen, Oslo, Trondheim utazások | a szolgáltatók nyilvános adatai | `data/Bergen/`, `data/Oslo/`, `data/Trondheim/` |
-
+| Bergen utazásai | [Bergen Bysykkel – historical open data](https://bergenbysykkel.no/en/open-data/historical) (NLOD 2.0) | `data/Bergen/` (a repóban üres, kézzel kell letölteni) |
+| Oslo utazásai | [Oslo Bysykkel – historical open data](https://oslobysykkel.no/en/open-data/historical) (NLOD 2.0) | `data/Oslo/` (a repóban üres, kézzel kell letölteni) |
+| Trondheim utazásai | [Trondheim Bysykkel – historical open data](https://trondheimbysykkel.no/en/open-data/historical) (NLOD 2.0) | `data/Trondheim/` (a repóban üres, kézzel kell letölteni) |
+ 
 A pontos hivatkozások (Adat1–Adat12) a szakdolgozat irodalomjegyzékének *Adatok* fejezetében találhatók.
-
 ---
 
 ## 3. A repository szerkezete
-
+ 
 ```
 .
 ├── R/
@@ -84,9 +85,9 @@ A pontos hivatkozások (Adat1–Adat12) a szakdolgozat irodalomjegyzékének *Ad
 ├── data/
 │   ├── 00Letoltott/               # Manuálisan letöltött adatok (népesség)
 │   ├── Budapest/                  # Budapest napi utazásszámai
-│   ├── Bergen/                    # Bergen utazásai (havi CSV-k)
-│   ├── Oslo/                      # Oslo utazásai (havi CSV-k)
-│   ├── Trondheim/                 # Trondheim utazásai (havi CSV-k)
+│   ├── Bergen/                    # ÜRES mappa – az utazási adatokat a teljes futtatáshoz le kell tölteni (lásd 8/B)
+│   ├── Oslo/                      # ÜRES mappa – ugyanígy
+│   ├── Trondheim/                 # ÜRES mappa – ugyanígy
 │   └── outputs/                   # Az ETL script futás közben kimentett összes CSV-je
 │       └── panel_data.csv         # ← a modellezés bemenete (végső panel)
 ├── european-bike-sharing-dataset/ # TUMFTM adatbázis letöltött másolata (lásd 2. szakasz)
@@ -99,6 +100,9 @@ A pontos hivatkozások (Adat1–Adat12) a szakdolgozat irodalomjegyzékének *Ad
 ├── figure/                        # Az ETL folyamatot bemutató ábra (draw.io)
 └── README.md
 ```
+ 
+> **Megjegyzés a norvég városokról:** a `Bergen/`, `Oslo/` és `Trondheim/` mappák a repóban üresek (csak a mappastruktúra miatt vannak itt). Ezek csak az ETL teljes újrafuttatásához kellenek; a feldolgozott eredményük már benne van a `data/outputs/` fájlokban (pl. `usage_raw_combined.csv`, `panel_data.csv`).
+>
 
 > **Megjegyzés a méretről:** a `trips.csv` több gigabájtos, ezért a GitHub-méretkorlát miatt nincs a repóban. A [TUMFTM repóból](https://github.com/TUMFTM/european-bike-sharing-dataset/) kell letölteni és a fenti helyre tenni. **Ha csak a modellezés érdekel, erre nincs szükség**, mert az eredmények a `data/outputs/` mappából reprodukálhatók.
 
@@ -234,15 +238,20 @@ install.packages(c(
 3. Futtasd az `R/modellezes.R`-t.
 
 **B) A teljes adatgyűjtés újrafuttatása**
-
+ 
 1. Töltsd le a [TUMFTM adatbázist](https://github.com/TUMFTM/european-bike-sharing-dataset/), és a `trips.csv`, `cities.csv`, `stations.csv` fájlokat tedd a `european-bike-sharing-dataset/full/` mappába.
-2. A kézzel gyűjtött adatok (népesség, Budapest, Bergen, Oslo, Trondheim) a repóban megvannak, a szükséges helyre kell tenni őket (`data/population.csv`, `data/Budapest/202208-202307.csv`, `data/Bergen/`, `data/Oslo/`, `data/Trondheim/`). Az ETL ezeket így várja.
-3. Írd át a `setwd()` sort a script elején, majd futtasd az `R/etl.R`-t. Az ETL az eredményeit `data/` alá menti (ezek a repóban a `data/outputs/` alatt vannak).
-
+2. A kézzel gyűjtött adatok közül a **népesség** és a **Budapest** adatai a repóban megvannak, ezeket a szükséges helyre kell tenni (`data/population.csv`, `data/Budapest/202208-202307.csv`). Az ETL ezeket így várja.
+3. **Bergen, Oslo és Trondheim:** a repóban a `data/Bergen/`, `data/Oslo/` és `data/Trondheim/` mappák üresek. A teljes futtatáshoz töltsd le a **2022. augusztus – 2023. július** közötti időszak havi utazási adatait (CSV) a szolgáltatók nyilvános adatoldaláról, és tedd az adott város mappájába:
+   - Bergen: <https://bergenbysykkel.no/en/open-data/historical>
+   - Oslo: <https://oslobysykkel.no/en/open-data/historical>
+   - Trondheim: <https://trondheimbysykkel.no/en/open-data/historical>
+   Az adatok licence: [Norwegian Licence for Open Government Data (NLOD) 2.0](https://data.norge.no/nlod/no/2.0); szolgáltató: Bergen / Oslo / Trondheim Bysykkel (UIP Bauer Media Outdoor Norge AS). A letöltött fájlokat nem kell átnevezni vagy összefűzni: a script a mappa összes `.csv` fájlját beolvassa, és a `started_at` oszlopból számol napi utazásszámot (a vizsgált időszakon kívüli napokat kiszűri). Trondheimből az eredeti kutatásban is hiányzott két hónap.
+4. *(Opcionális)* GitHub Personal Access Token a rate limit elkerülésére: `Sys.setenv(GITHUB_PAT = "...")`.
+5. Írd át a `setwd()` sort a script elején, majd futtasd az `R/etl.R`-t. Az ETL az eredményeit `data/` alá menti (ezek a repóban a `data/outputs/` alatt vannak).
 > ⚠️ **Elérési utak.** A scriptek jelenleg a `data/…` útvonalat használják a köztes CSV-kre, a repóban viszont ezek a `data/outputs/` alatt vannak. Ha a scriptet változtatás nélkül futtatod, vagy másold a fájlokat a `data/` mappába, vagy írd át az útvonalakat.
 >
 > ⚠️ **Az API-k válaszai változhatnak** (pl. a Nominatim poligonjai, az Open-Meteo koordináták). A lekérdezések lassúak (a szkript szándékosan vár a kérések között). Pontos egyezés a `data/outputs/` fájlokból garantált, az újralekérdezésnél kisebb eltérések lehetnek.
-
+ 
 ---
 
 ## 9. Ismert korlátok
