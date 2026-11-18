@@ -1,0 +1,86 @@
+﻿country;city;population
+DE;Norderstedt;82844
+DE;Marburg;73704
+DE;Wiesbaden;288850
+DE;Kassel;197230
+DE;Potsdam;184754
+PL;Zielona Góra;118433
+AT;Wien;1982097
+DE;Leipzig;504971
+DE;Bremen;546501
+DE;Graben;3250
+DE;Walldorf;2281
+DE;Oldenburg;159218
+GB;Glasgow;626410
+PL;Piaseczno;36278
+AT;Innsbruck;132493
+DE;Düsseldorf;618685
+DE;Lahr;50775
+DE;Offenburg;59238
+DE;Lippstadt;67219
+DE;Bielefeld;331906
+DE;Leverkusen;162738
+AT;Klagenfurt;104332
+ES;Bilbao;347342
+SK;Žilina;81219
+PL;Katowice;286960
+DE;Frankfurt;749596
+PL;Tarnów;117799
+ES;Las Palmas de Gran Canaria;380863
+CZ;Prostejov;43563
+LV;Rīga;742542
+CZ;Olomouc;99496
+PL;Kędzierzyn-Koźle;65636
+DE;Bonn;330579
+DE;Köln;1024621
+PL;Sosnowiec;227295
+PL;Tychy;130000
+CZ;Opava;54881
+CZ;Frýdek-Místek;53590
+CZ;Hradec Králové;90596
+PL;Wrocław;672545
+PL;Grodzisk Mazowiecki;26684
+DE;Braunschweig;244715
+PL;Żyrardów;41179
+PL;Ciechanów;46438
+PL;Ostrów Wielkopolski;72898
+PL;Piotrków Trybunalski;80128
+PL;Kołobrzeg;44377
+PL;Pszczyna;25288
+PL;Częstochowa;248125
+PL;Koszalin;107450
+PL;Szamotuły;18588
+PL;Konin;81258
+HR;Zadar;67309
+HR;Zaprešić;18768
+GB;Stirling;37910
+GB;Belfast;348005
+PL;Białystok;295683
+SI;Nova Gorica;13031
+HR;Osijek;75535
+SI;Zagorje ob Savi;6439
+SI;Ljubljana;272220
+DE;Nürnberg;541103
+DE;Gießen;1640
+DE;Augsburg;301105
+DE;Dresden;564904
+ES;León;124772
+DE;Bad Oeynhausen;49513
+DE;Mönchengladbach;261742
+CZ;Pardubice;88520
+CZ;Kladno;69728
+CZ;Písek;1776
+CZ;Zlín;72973
+CZ;Jihlava;50108
+CZ;Havířov;82768
+CZ;Krnov;22303
+CZ;Dvůr Králové;15348
+CZ;Vrchlabí;12028
+CZ;Uherské Hradiště;24852
+DE;Gütersloh;96180
+IT;Bergamo;121200
+SE;Göteborg;1080980
+HU;Budapest;1741041
+NO;Bergen;294029
+NO;Oslo;1082575
+NO;Trondheim;216518
