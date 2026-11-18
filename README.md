@@ -88,8 +88,7 @@ A pontos hivatkozások (Adat1–Adat12) a szakdolgozat irodalomjegyzékének *Ad
 │   ├── Bergen/                    # ÜRES mappa – az utazási adatokat a teljes futtatáshoz le kell tölteni (lásd 8/B)
 │   ├── Oslo/                      # ÜRES mappa – ugyanígy
 │   ├── Trondheim/                 # ÜRES mappa – ugyanígy
-│   └── outputs/                   # Az ETL script futás közben kimentett összes CSV-je
-│       └── panel_data.csv         # ← a modellezés bemenete (végső panel)
+│   └── panel_data.csv             # ← a modellezés bemenete (végső panel)
 ├── european-bike-sharing-dataset/ # TUMFTM adatbázis letöltött másolata (lásd 2. szakasz)
 │   └── full/
 │       ├── trips.csv
@@ -101,10 +100,10 @@ A pontos hivatkozások (Adat1–Adat12) a szakdolgozat irodalomjegyzékének *Ad
 └── README.md
 ```
  
-> **Megjegyzés a norvég városokról:** a `Bergen/`, `Oslo/` és `Trondheim/` mappák a repóban üresek (csak a mappastruktúra miatt vannak itt). Ezek csak az ETL teljes újrafuttatásához kellenek; a feldolgozott eredményük már benne van a `data/outputs/` fájlokban (pl. `usage_raw_combined.csv`, `panel_data.csv`).
+> **Megjegyzés a norvég városokról:** a `Bergen/`, `Oslo/` és `Trondheim/` mappák a repóban üresek (csak a mappastruktúra miatt vannak itt). Ezek csak az ETL teljes újrafuttatásához kellenek; a feldolgozott eredményük már benne van a `data/` fájlokban (pl. `usage_raw_combined.csv`, `panel_data.csv`).
 >
 
-> **Megjegyzés a méretről:** a `trips.csv` több gigabájtos, ezért a GitHub-méretkorlát miatt nincs a repóban. A [TUMFTM repóból](https://github.com/TUMFTM/european-bike-sharing-dataset/) kell letölteni és a fenti helyre tenni. **Ha csak a modellezés érdekel, erre nincs szükség**, mert az eredmények a `data/outputs/` mappából reprodukálhatók.
+> **Megjegyzés a méretről:** a `trips.csv` több gigabájtos, ezért a GitHub-méretkorlát miatt nincs a repóban. A [TUMFTM repóból](https://github.com/TUMFTM/european-bike-sharing-dataset/) kell letölteni és a fenti helyre tenni. **Ha csak a modellezés érdekel, erre nincs szükség**, mert az eredmények a `data/` mappából reprodukálhatók.
 
 ---
 
@@ -112,13 +111,13 @@ A pontos hivatkozások (Adat1–Adat12) a szakdolgozat irodalomjegyzékének *Ad
 
 | Mit szeretnék? | Mit kell hozzá? |
 |---|---|
-| **Csak a modellezést / eredményeket** reprodukálni | `R/modellezes.R` + `data/outputs/panel_data.csv` |
-| Egy **köztes adatlépést** ellenőrizni (pl. időjárás, városhatárok, infrastruktúra) | a megfelelő CSV a `data/outputs/` mappából (lásd alább) |
+| **Csak a modellezést / eredményeket** reprodukálni | `R/modellezes.R` + `data/panel_data.csv` |
+| Egy **köztes adatlépést** ellenőrizni (pl. időjárás, városhatárok, infrastruktúra) | a megfelelő CSV a `data/` mappából (lásd alább) |
 | A **teljes adatgyűjtést** újrafuttatni | `R/etl.R` + a nyers adatmappák + `european-bike-sharing-dataset/` + internet (API-k) |
 
-A `data/outputs/` mappa az ETL script **biztonsági mentései**. Azért töltöttem fel őket, hogy az adatgyűjtés reprodukálhatósága ne az API-k állandó elérhetőségén múljon (az API-k válaszai idővel változhatnak, egyes szolgáltatások lekérdezései lassúak és sok órát vesznek igénybe).
+A `data/` mappa az ETL script **biztonsági mentései**. Azért töltöttem fel őket, hogy az adatgyűjtés reprodukálhatósága ne az API-k állandó elérhetőségén múljon (az API-k válaszai idővel változhatnak, egyes szolgáltatások lekérdezései lassúak és sok órát vesznek igénybe).
 
-| Fájl (`data/outputs/`) | Tartalom | ETL szakasz |
+| Fájl (`data/`) | Tartalom | ETL szakasz |
 |---|---|---|
 | `gbfs_commits.csv` | GBFS `systems.csv` commitlista a vizsgált időszakra | 1.1 |
 | `usage_raw_combined.csv` | Napi utazásszámok (nextbike + egyéni városok), geokódolás előtt | 1.6 |
@@ -234,7 +233,7 @@ install.packages(c(
 **A) Csak a modellezés**
 
 1. Klónozd a repót, és állítsd a munkakönyvtárat a repo gyökerére.
-2. A `modellezes.R` az elején a `data/panel_data.csv` fájlt olvassa be (és `setwd()` is szerepel benne, amit a saját elérési utadra kell átírni). A fájl a repóban a `data/outputs/panel_data.csv` helyen található – másold át a `data/` mappába, vagy módosítsd az elérési utat a script elején.
+2. A `modellezes.R` az elején a `data/panel_data.csv` fájlt olvassa be (és `setwd()` is szerepel benne, amit a saját elérési utadra kell átírni). A fájl a repóban a `data/panel_data.csv` helyen található – másold át a `data/` mappába, vagy módosítsd az elérési utat a script elején.
 3. Futtasd az `R/modellezes.R`-t.
 
 **B) A teljes adatgyűjtés újrafuttatása**
@@ -247,10 +246,10 @@ install.packages(c(
    - Trondheim: <https://trondheimbysykkel.no/en/open-data/historical>
    Az adatok licence: [Norwegian Licence for Open Government Data (NLOD) 2.0](https://data.norge.no/nlod/no/2.0); szolgáltató: Bergen / Oslo / Trondheim Bysykkel (UIP Bauer Media Outdoor Norge AS). A letöltött fájlokat nem kell átnevezni vagy összefűzni: a script a mappa összes `.csv` fájlját beolvassa, és a `started_at` oszlopból számol napi utazásszámot (a vizsgált időszakon kívüli napokat kiszűri). Trondheimből az eredeti kutatásban is hiányzott két hónap.
 4. *(Opcionális)* GitHub Personal Access Token a rate limit elkerülésére: `Sys.setenv(GITHUB_PAT = "...")`.
-5. Írd át a `setwd()` sort a script elején, majd futtasd az `R/etl.R`-t. Az ETL az eredményeit `data/` alá menti (ezek a repóban a `data/outputs/` alatt vannak).
-> ⚠️ **Elérési utak.** A scriptek jelenleg a `data/…` útvonalat használják a köztes CSV-kre, a repóban viszont ezek a `data/outputs/` alatt vannak. Ha a scriptet változtatás nélkül futtatod, vagy másold a fájlokat a `data/` mappába, vagy írd át az útvonalakat.
+5. Írd át a `setwd()` sort a script elején, majd futtasd az `R/etl.R`-t. Az ETL az eredményeit `data/` alá menti (ezek a repóban a `data/` alatt vannak).
+> ⚠️ **Elérési utak.** A scriptek jelenleg a `data/…` útvonalat használják a köztes CSV-kre, a repóban viszont ezek a `data/` alatt vannak. Ha a scriptet változtatás nélkül futtatod, vagy másold a fájlokat a `data/` mappába, vagy írd át az útvonalakat.
 >
-> ⚠️ **Az API-k válaszai változhatnak** (pl. a Nominatim poligonjai, az Open-Meteo koordináták). A lekérdezések lassúak (a szkript szándékosan vár a kérések között). Pontos egyezés a `data/outputs/` fájlokból garantált, az újralekérdezésnél kisebb eltérések lehetnek.
+> ⚠️ **Az API-k válaszai változhatnak** (pl. a Nominatim poligonjai, az Open-Meteo koordináták). A lekérdezések lassúak (a szkript szándékosan vár a kérések között). Pontos egyezés a `data/` fájlokból garantált, az újralekérdezésnél kisebb eltérések lehetnek.
  
 ---
 
